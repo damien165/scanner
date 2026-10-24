@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Tradingbots</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔒</text></svg>">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Tradingbots">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#1a1a1a">
+<style>
+html,body{margin:0;height:100%;background:#1a1a1a;color:#fff;font-family:Arial,sans-serif}
+.wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
+.card{background:#2d2d2d;border:1px solid #404040;border-radius:10px;padding:24px;width:100%;max-width:340px;box-sizing:border-box}
+.card h1{font-size:18px;margin:0 0 18px}
+.card label{display:block;font-size:13px;color:#ccc;margin-bottom:6px}
+.card input[type=password]{width:100%;box-sizing:border-box;padding:10px;border-radius:6px;border:1px solid #555;background:#1a1a1a;color:#fff;font-size:16px}
+.card .row{display:flex;align-items:center;gap:8px;margin:12px 0 16px}
+.card button{width:100%;padding:10px;border:0;border-radius:6px;background:#1e631e;color:#fff;font-size:15px;font-weight:bold;cursor:pointer}
+.card button:disabled{opacity:.6;cursor:default}
+.err{color:#ff6666;font-size:13px;min-height:18px;margin-top:10px}
+#wait{color:#888;font-size:13px;text-align:center}
+[hidden]{display:none !important}
+</style></head><body>
+<div class="wrap">
+  <div id="wait">Déchiffrement…</div>
+  <form id="lock" class="card" hidden>
+    <h1>🔒 Tradingbots</h1>
+    <label for="pw">Phrase de passe</label>
+    <input id="pw" type="password" autocomplete="current-password" required>
+    <label class="row"><input id="remember" type="checkbox" checked> Se souvenir sur cet appareil</label>
+    <button id="go" type="submit">Déverrouiller</button>
+    <div id="err" class="err" role="alert"></div>
+  </form>
+</div>
+<script>
+(function () {
+  var P = {"v": 1, "iter": 600000, "salt": "2gqt1mtWV2gsplrLjl0fSg==", "iv": "T8HUa4gkimqfMmZY", "ct": "MtsFDjPLJ6PHb2zdIlOMC1ayG7aLMlZ6TaCThPLIseM9dx296HmafhqPdgObCZKng6OQ/kHDCvUZSH0uaB8oPwd2JZ8E+MycDxH3p587cr1tOt9+p/niYc5dcPc5KaIeVU0IYEqkJbQ6Nn53fQ23h075ikYQixVjVzxLqHNSOe93tkOQYTw0Jgdpseb8X6JG7IkY1vlKYqcH305P02jCIZ1nw9p7Tj9q5vJCMVC6rrJ4a3oJnkhbRANojFjwha44ch8w6LVRta/HmWr/P0Kp8NbCvWP+ar75ioH5bAWNXqO3ao8gm1sgU7cCg+TAV5Hxx8qQ5t0GNfe7vEjg5YIyGWEXB9yBV5w55VmKJ4Vr+NWfiS2sXMq8kexjgzJJ4RrIWGIeW5F4OWNJriC6koWL+o2N7WYChSmrYTfDz8tantI6eIg4t8WTGNMn/prfOsJVQUTe87iYiDkuxoGwv9vX82yKaWwfeX2P5Da7Fh0wFUE6XjFD3+Pt51fxC7MUxpDjSCvvlRDxS+exGvjzIHDlcrm3aAiSdLUbmu61m1rjjAHq9GsH+JKwM79EZx3egEFdtv8ngrogog1GGITCUR9J7ET7Cde6b5LAA7gFGEB7SuV+rZRlGoW5nnG3LkBefuPM7vtznv3XZPoL0SfmlbiXiMus3t10xi1QMlTFnk4p1VuOag/J4TLYctGsM9qPEvn/DDa2CYbQuqtyR5dDQvubyR0jkuRAiFbpSdpNIQOuw34G2EW2+VLU6c8v/70zj2SPflocayPOY54NUFtLwhgBoBjhm0Ys4HuAU9dc0S+rGnuhGArqjM3scicDBNISIgoGi794caocqTQhjdK/v0Uwhax33Y8dqyCcyRrROySQX4lP6E5F9BsNK48Njb3HyST9kt6wFsM8Q9BQGK3cRoox4+RtZnxpyxOQoGZpYNo9nCYHFxV8aVPrBeOx33RuTBwPvTcAShqgxNbkjzyIPYkoCEjGsdpeSsoPCNH/mVQvXHmv7fmt683JRVj3b2X5Dp1OWzdp95lVSGGJRolUMCOqEpX3VitY8Nzh37OJ7GjZvSO0TKTbs5J29Ad+zAVexZTVSS8uqiwldhfvey4ynWsDotA+1gDG+ibrZIdiFRvbm050ftE5FxFrNlV9/YNcLOpB++r5wHdWV50VXouDmBzrR2dwGDpPq0oKaiICXUaY464JH/RnBp+v1EvFrVNlEwnVvlPfuPJQzIXAlQOT2SZWSCbe/UjMCbweI6N5zBRr9fZR1yJt/4FVV/k2Kh9XNZW2y0h77HHYqsuH8hFPdVAILAgA5oxNXYptEj9THcR1tYzCvY1sdHyO9xkuVf9fTnTPDlFKNCNvyWvw9a1bCwncdbtTT+5yJdgl7l/Cu5Ut+OQmDps+sV4qQFQe4EA/FL81IgpGNLS17iExeKorVqBpZWt4qQfrT51BOTJ1+3BMWFQpYCNZlVzQJw75pMGErxBxAX4dK3bBlTVmpgueJcoPPTMBqJctj1RtJisAQutVg+xTzRxIJnObBmde57wr7oulfT9OBkpuNt9TIepvpxY3bO3ud/Yz7p1OgYitRC8IrPsxHQMTF7yeyfZJqqhMzKWR9iPbf1vEIb1w7vYVBg=="};
+  var STORE = 'unified-scanner-key';
+  function el(id) { return document.getElementById(id); }
+  function b64d(s) { var b = atob(s), u = new Uint8Array(b.length); for (var i = 0; i < b.length; i++) u[i] = b.charCodeAt(i); return u; }
+  function b64e(u) { var s = ''; for (var i = 0; i < u.length; i++) s += String.fromCharCode(u[i]); return btoa(s); }
+  function stored() { try { return localStorage.getItem(STORE) || sessionStorage.getItem(STORE); } catch (e) { return null; } }
+  function forget() { try { localStorage.removeItem(STORE); sessionStorage.removeItem(STORE); } catch (e) {} }
+  function keep(raw, remember) {
+    forget();
+    try { (remember ? localStorage : sessionStorage).setItem(STORE, b64e(raw)); } catch (e) {}
+  }
+  async function derive(pw) {
+    var base = await crypto.subtle.importKey('raw', new TextEncoder().encode(pw.trim().normalize('NFC')), 'PBKDF2', false, ['deriveBits']);
+    var bits = await crypto.subtle.deriveBits({ name: 'PBKDF2', hash: 'SHA-256', salt: b64d(P.salt), iterations: P.iter }, base, 256);
+    return new Uint8Array(bits);
+  }
+  async function decryptPage(raw) {
+    var key = await crypto.subtle.importKey('raw', raw, { name: 'AES-GCM' }, false, ['decrypt']);
+    var zipped = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: b64d(P.iv) }, key, b64d(P.ct));
+    var stream = new Blob([zipped]).stream().pipeThrough(new DecompressionStream('gzip'));
+    return new Response(stream).text();
+  }
+  function show(html) { document.open(); document.write(html); document.close(); }
+  function ask(msg) {
+    el('wait').hidden = true;
+    el('lock').hidden = false;
+    el('err').textContent = msg || '';
+    el('pw').focus();
+  }
+  el('lock').addEventListener('submit', async function (ev) {
+    ev.preventDefault();
+    var go = el('go');
+    go.disabled = true;
+    go.textContent = 'Vérification…';
+    el('err').textContent = '';
+    var raw, html;
+    try {
+      raw = await derive(el('pw').value);
+      html = await decryptPage(raw);
+    } catch (e) {
+      go.disabled = false;
+      go.textContent = 'Déverrouiller';
+      el('err').textContent = 'Phrase de passe incorrecte.';
+      el('pw').select();
+      return;
+    }
+    keep(raw, el('remember').checked);
+    show(html);
+  });
+  (async function () {
+    if (!window.crypto || !crypto.subtle) { el('wait').textContent = 'Ouvre cette page en HTTPS pour la déchiffrer.'; return; }
+    if (typeof DecompressionStream === 'undefined') { el('wait').textContent = 'Navigateur trop ancien : mets-le à jour pour afficher le scanner.'; return; }
+    var s = stored();
+    if (s) {
+      try { show(await decryptPage(b64d(s))); return; }
+      catch (e) { forget(); ask('La phrase de passe a changé : saisis-la à nouveau.'); return; }
+    }
+    ask('');
+  })();
+})();
+</script>
+</body></html>
